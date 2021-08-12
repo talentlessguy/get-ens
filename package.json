@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "test": "node --experimental-json-modules --loader=esbuild-node-loader node_modules/uvu/bin.js tests",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test:coverage": "c8 --include=src pnpm test",
+    "test:report": "c8 report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {
     "type": "git",
