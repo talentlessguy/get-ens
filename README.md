@@ -20,11 +20,12 @@ const provider = getDefaultProvider()
 // @ts-ignore
 globalThis.fetch = fetch
 
-const { address, records } = await getENS(provider)('foda.eth')
+const { address, records, owner } = await getENS(provider)('foda.eth')
 
 /*
 {
   address: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
+  owner: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
   records: {
     web: { twitter: 'twitter.com/fodasynthesis' },
     email: 'foda@just.is',
