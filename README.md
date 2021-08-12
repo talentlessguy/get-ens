@@ -1,6 +1,12 @@
+<div align="center">
+
 # get-ens
 
-Get text records of an ENS address with ease.
+[![Version][v-badge-url]][npm-url] [![Downloads][dl-badge-url]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Codecov][cov-badge-url]][cov-url]
+  
+<sub>Get text records of an ENS address with ease.</sub>
+  
+</div>
 
 ## Install
 
@@ -34,3 +40,11 @@ const { address, records, owner } = await getENS(provider)('foda.eth')
 }
 */
 ```
+
+[v-badge-url]: https://img.shields.io/npm/v/get-ens.svg?style=for-the-badge&color=4D48F7&label=&logo=npm
+[npm-url]: https://www.npmjs.com/package/get-ens
+[cov-badge-url]: https://img.shields.io/coveralls/github/talentlessguy/get-ens?style=for-the-badge&color=4D48F7
+[cov-url]: https://coveralls.io/github/talentlessguy/get-ens
+[dl-badge-url]: https://img.shields.io/npm/dt/get-ens?style=for-the-badge&color=4D48F7
+[github-actions]: https://github.com/talentlessguy/get-ens/actions
+[gh-actions-img]: https://img.shields.io/github/workflow/status/talentlessguy/get-ens/CI?style=for-the-badge&color=4D48F7&label=&logo=github
