@@ -20,7 +20,7 @@ const provider = getDefaultProvider()
 // @ts-ignore
 globalThis.fetch = fetch
 
-const { address, records } = await getENS(provider)('foda.eth')
+const { address, records, owner } = await getENS(provider)('foda.eth')
 
 /*
 {
