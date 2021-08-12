@@ -12,7 +12,7 @@ export const getENS = (provider: Provider, contractAddress: string = '0x4976fb03
     const node = namehash(domain)
 
     const res = await fetch('https://api.thegraph.com/subgraphs/name/ensdomains/ens', {
-      body: `{"query":"{domains(where:{name:\\"${domain}\\"}) { resolvedAddress{ id } resolver{ texts }}}"}`,
+      body: `{"query":"{domains(where:{name:\\"${domain}\\"}) { resolvedAddress{ id } resolver{ texts } owner{ id } }}"}`,
       method: 'POST'
     })
     const {
@@ -21,19 +21,31 @@ export const getENS = (provider: Provider, contractAddress: string = '0x4976fb03
 
     const records: Record<string, string | {}> & { web: Record<string, string> } = { web: {} }
 
-    const {
-      resolvedAddress: { id: address },
-      resolver: { texts }
-    } = domains[0]
+    const { resolvedAddress: address, resolver, owner } = domains[0]
 
-    for (const record of texts) {
-      if (record.startsWith('com.')) {
-        records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
-      } else {
-        records[record] = await getRecord(node, record)
-      }
+    let data: { owner: string | null; address: string | null; records?: typeof records } = {
+      owner: null,
+      address: null
     }
 
-    return { address, records }
+    if (owner) data.owner = owner.id
+
+    if (address) data.address = address.id
+
+    if (!resolver) {
+      return data
+    } else {
+      for (const record of resolver.texts) {
+        if (record.startsWith('com.')) {
+          records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
+        } else {
+          records[record] = await getRecord(node, record)
+        }
+      }
+
+      data.records = records
+
+      return data
+    }
   }
 }
