@@ -1,14 +1,31 @@
 import { namehash } from './getNamehash'
-import ABI from '@ensdomains/ens-contracts/build/contracts/TextResolver.json'
+import { ABI } from './abi'
 import { Contract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { Provider, getDefaultProvider } from '@ethersproject/providers'
 
-export const getENS = (provider: Provider, contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41') => {
+export type ENSRecords = Record<string, string | {}> & { web: Record<string, string> }
+
+export interface ResolvedENS {
+  owner: string | null
+  address: string | null
+  records?: ENSRecords
+}
+
+/**
+ *
+ * @param provider Ethereum provider
+ * @param contractAddress ENS resolver contract address
+ * @returns
+ */
+export const getENS = (
+  provider: Provider = getDefaultProvider(),
+  contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41'
+) => {
   const contract = new Contract(contractAddress, ABI, provider)
 
   const getRecord = async (node: string, record: string) => await contract.text(node, record)
 
-  return async function getENS(domain: string) {
+  return async function getENS(domain: string): Promise<ResolvedENS> {
     const node = namehash(domain)
 
     const res = await fetch('https://api.thegraph.com/subgraphs/name/ensdomains/ens', {
@@ -19,7 +36,7 @@ export const getENS = (provider: Provider, contractAddress: string = '0x4976fb03
       data: { domains }
     } = await res.json()
 
-    const records: Record<string, string | {}> & { web: Record<string, string> } = { web: {} }
+    const records: ENSRecords = { web: {} }
 
     const { resolvedAddress: address, resolver, owner } = domains[0]
 

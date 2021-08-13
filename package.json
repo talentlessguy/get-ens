@@ -1,6 +1,6 @@
 {
   "name": "get-ens",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get text records of an ENS address with ease.",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "node --experimental-json-modules --loader=esbuild-node-loader node_modules/uvu/bin.js tests",
+    "test": "node --loader=esbuild-node-loader node_modules/uvu/bin.js tests",
     "build": "rollup -c",
     "test:coverage": "c8 --include=src pnpm test",
     "test:report": "c8 report --reporter=text-lcov > coverage.lcov"
@@ -31,14 +31,12 @@
   },
   "homepage": "https://github.com/talentlessguy/get-ens#readme",
   "dependencies": {
-    "@ensdomains/ens-contracts": "^0.0.7",
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.3",
     "idna-uts46-hx": "^3.4.0",
     "keccak": "^3.0.1"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/keccak": "^3.0.1",
     "@types/node": "^16.4.14",
