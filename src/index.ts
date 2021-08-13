@@ -49,7 +49,7 @@ export const getENS = (
 
     if (address) data.address = address.id
 
-    if (!resolver) {
+    if (!resolver?.texts) {
       return data
     } else {
       for (const record of resolver.texts) {
