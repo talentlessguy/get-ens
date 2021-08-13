@@ -13,5 +13,5 @@ export default {
       mangle: false
     })
   ],
-  external: ['@ethersproject/contracts', 'keccak', 'idna-uts46-hx']
+  external: ['@ethersproject/contracts', 'keccak', '@ethersproject/providers']
 }
