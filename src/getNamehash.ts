@@ -1,5 +1,5 @@
 import createHash from 'keccak'
-import uts46 from 'idna-uts46-hx'
+import uts46 from 'tr46'
 
 const sha3 = (x: string | Buffer) => createHash('keccak256').update(x).digest().toString('hex')
 
@@ -25,5 +25,5 @@ export function namehash(inputName: string) {
 }
 
 export function normalize(name: string) {
-  return name ? uts46.toAscii(name, { useStd3ASCII: true, transitional: false, verifyDnsLength: true }) : name
+  return name ? uts46.toASCII(name, { useSTD3ASCIIRules: true, verifyDNSLength: true }) : name
 }

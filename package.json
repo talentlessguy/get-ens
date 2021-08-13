@@ -1,6 +1,6 @@
 {
   "name": "get-ens",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get text records of an ENS address with ease.",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,7 +12,8 @@
     "test": "node --loader=esbuild-node-loader node_modules/uvu/bin.js tests",
     "build": "rollup -c",
     "test:coverage": "c8 --include=src pnpm test",
-    "test:report": "c8 report --reporter=text-lcov > coverage.lcov"
+    "test:report": "c8 report --reporter=text-lcov > coverage.lcov",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -33,15 +34,18 @@
   "dependencies": {
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.3",
-    "idna-uts46-hx": "^3.4.0",
-    "keccak": "^3.0.1"
+    "keccak": "^3.0.1",
+    "tr46": "^2.1.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/keccak": "^3.0.1",
     "@types/node": "^16.4.14",
     "c8": "^7.8.0",
     "esbuild-node-loader": "^0.1.1",
+    "husky": "^7.0.1",
     "node-fetch": "^2.6.1",
     "rollup": "^2.56.2",
     "rollup-plugin-terser": "^7.0.2",
