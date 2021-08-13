@@ -1,16 +1,13 @@
 import createHash from 'keccak'
-import * as tr46 from 'tr46'
 
 const sha3 = (x: string | Buffer) => createHash('keccak256').update(x).digest().toString('hex')
 
-export function namehash(inputName: string) {
+export function namehash(name: string) {
   // Reject empty names:
   let node = ''
   for (var i = 0; i < 32; i++) {
     node += '00'
   }
-
-  const name = normalize(inputName)
 
   if (name) {
     const labels = name.split('.')
@@ -22,8 +19,4 @@ export function namehash(inputName: string) {
   }
 
   return '0x' + node
-}
-
-export function normalize(name: string) {
-  return name ? tr46.toASCII(name, { useSTD3ASCIIRules: true, verifyDNSLength: true }) : name
 }

@@ -1,5 +1,7 @@
 import ts from '@rollup/plugin-typescript'
 import { terser } from 'rollup-plugin-terser'
+import cjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 
 export default {
   input: 'src/index.ts',
@@ -9,6 +11,8 @@ export default {
   },
   plugins: [
     ts({ include: ['./src/**/*.ts'] }),
+    json(),
+    cjs(),
     terser({
       mangle: false
     })
