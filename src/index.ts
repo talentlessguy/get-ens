@@ -53,7 +53,7 @@ export const getENS = (
       return data
     } else {
       for (const record of resolver.texts) {
-        if (record.startsWith('com.')) {
+        if (record.startsWith('com.') || record.startsWith('vnd.')) {
           records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
         } else {
           records[record] = await getRecord(node, record)
