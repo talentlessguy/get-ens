@@ -1,6 +1,6 @@
 {
   "name": "get-ens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Get text records of an ENS address with ease.",
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -51,5 +51,8 @@
     "tslib": "^2.3.0",
     "typescript": "^4.3.5",
     "uvu": "^0.5.1"
+  },
+  "engines": {
+    "node": ">=12.4"
   }
 }
