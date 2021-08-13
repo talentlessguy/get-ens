@@ -39,8 +39,6 @@
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.2.5",
     "@types/keccak": "^3.0.1",
     "@types/node": "^16.4.14",
