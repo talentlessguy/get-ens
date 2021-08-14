@@ -16,9 +16,16 @@ t('resolves the address and text records', async () => {
     address: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
     owner: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
     records: {
-      web: { twitter: 'twitter.com/fodasynthesis' },
+      avatar: 'https://slate.textile.io/ipfs/bafkreiddogjj5m6nhru72cqvj7napv3knwyqcvxlfxu4axkwhhlg55t5cu',
+      color: '#f0da91',
+      description: 'ⓕ™',
       email: 'foda@just.is',
-      url: 'instagram.com/foda.farm'
+      url: 'https://asf.is',
+      web: {
+        github: 'https://github.com/a-s-f',
+        instagram: 'https://instagram.com/foda.farm',
+        twitter: 'twitter.com/fodasynthesis'
+      }
     }
   })
 })

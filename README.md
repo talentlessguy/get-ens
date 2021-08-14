@@ -3,9 +3,9 @@
 # get-ens
 
 [![Version][v-badge-url]][npm-url] [![Downloads][dl-badge-url]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Codecov][cov-badge-url]][cov-url]
-  
+
 <sub>Get text records of an ENS address with ease.</sub>
-  
+
 </div>
 
 ## Install
@@ -33,6 +33,7 @@ const { address, records, owner } = await getENS(provider)('foda.eth')
   address: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
   owner: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
   records: {
+    avatar: 'https://slate.textile.io/ipfs/bafkreiddogjj5m6nhru72cqvj7napv3knwyqcvxlfxu4axkwhhlg55t5cu',
     web: { twitter: 'twitter.com/fodasynthesis' },
     email: 'foda@just.is',
     url: 'instagram.com/foda.farm'
