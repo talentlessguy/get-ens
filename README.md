@@ -16,8 +16,10 @@ pnpm i get-ens
 
 ## Usage
 
+### Node.js
+
 ```ts
-import { getDefaultProvider } from '@ethersproject/provider'
+import { getDefaultProvider } from '@ethersproject/providers'
 import { getENS } from 'get-ens'
 import fetch from 'node-fetch'
 
@@ -34,12 +36,29 @@ const { address, records, owner } = await getENS(provider)('foda.eth')
   owner: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
   records: {
     avatar: 'https://slate.textile.io/ipfs/bafkreiddogjj5m6nhru72cqvj7napv3knwyqcvxlfxu4axkwhhlg55t5cu',
-    web: { twitter: 'twitter.com/fodasynthesis' },
+    color: '#f0da91',
+    description: 'ⓕ™',
     email: 'foda@just.is',
-    url: 'instagram.com/foda.farm'
+    url: 'https://asf.is',
+    web: {
+      github: 'https://github.com/a-s-f',
+      instagram: 'https://instagram.com/foda.farm',
+      twitter: 'twitter.com/fodasynthesis'
+    }
   }
 }
 */
+```
+
+### Deno
+
+```ts
+import { getENS } from 'https://esm.sh/get-ens'
+import { getDefaultProvider } from 'https://esm.sh/@ethersproject/providers'
+
+const provider = getDefaultProvider()
+
+const { address, records, owner } = await getENS(provider)('foda.eth')
 ```
 
 [v-badge-url]: https://img.shields.io/npm/v/get-ens.svg?style=for-the-badge&color=4D48F7&label=&logo=npm
