@@ -1,4 +1,4 @@
-import { getDefaultProvider } from '@ethersproject/providers'
+import { getDefaultProvider, InfuraProvider } from '@ethersproject/providers'
 import { suite } from 'uvu'
 import { deepStrictEqual } from 'assert'
 import { getENS } from '../src/index'
@@ -9,7 +9,7 @@ globalThis.fetch = fetch
 
 const t = suite('getENS(provider, domain)')
 
-const provider = getDefaultProvider()
+const provider = new InfuraProvider('homestead', '0c8c992691dc4bfe97b4365a27fb2ce4')
 
 t('resolves the address and text records', async () => {
   deepStrictEqual(await getENS(provider)('foda.eth'), {

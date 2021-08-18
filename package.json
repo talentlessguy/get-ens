@@ -34,8 +34,6 @@
   "dependencies": {
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.3",
-    "graphql": "^15.5.1",
-    "graphql-request": "^3.5.0",
     "keccak": "^3.0.1"
   },
   "devDependencies": {

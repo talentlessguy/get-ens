@@ -1,8 +1,8 @@
 import { namehash } from './namehash'
 import { ABI } from './abi'
 import { Contract } from '@ethersproject/contracts'
-import { request } from 'graphql-request'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
+import assert from 'assert'
 
 export type ENSRecords = Record<string, string | {}> & { web: Record<string, string> }
 
@@ -38,6 +38,19 @@ query($domain: String!) {
   }
 }
 `
+
+const request = async (endpoint: string, query: string, variables: Record<string, any>) => {
+  const res = await fetch(endpoint, {
+    body: JSON.stringify({ query, variables }),
+    method: 'POST'
+  })
+
+  assert.strictEqual(200, res.status)
+
+  const json = await res.json()
+
+  return json.data
+}
 
 /**
  *
