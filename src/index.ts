@@ -1,15 +1,44 @@
 import { namehash } from './namehash'
 import { ABI } from './abi'
+import assert from 'assert'
 import { Contract } from '@ethersproject/contracts'
+import { request } from 'graphql-request'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 
 export type ENSRecords = Record<string, string | {}> & { web: Record<string, string> }
 
 export interface ResolvedENS {
+  /**
+   * Owner address
+   */
   owner: string | null
+  /**
+   * Resolved address
+   */
   address: string | null
+  /**
+   * ENS text records
+   */
   records?: ENSRecords
 }
+
+const ENDPOINT = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
+
+const QUERY = `
+query($domain: String!) {
+  domains(where:{name: $domain}) { 
+    resolvedAddress {
+      id
+    }
+    resolver {
+      texts
+    }
+    owner {
+      id
+    }
+  }
+}
+`
 
 /**
  *
@@ -28,13 +57,9 @@ export const getENS = (
   return async function getENS(domain: string): Promise<ResolvedENS> {
     const node = namehash(domain)
 
-    const res = await fetch('https://api.thegraph.com/subgraphs/name/ensdomains/ens', {
-      body: `{"query":"{domains(where:{name:\\"${domain}\\"}) { resolvedAddress{ id } resolver{ texts } owner{ id } }}"}`,
-      method: 'POST'
+    const { domains } = await request(ENDPOINT, QUERY, {
+      domain: domain
     })
-    const {
-      data: { domains }
-    } = await res.json()
 
     const records: ENSRecords = { web: {} }
 

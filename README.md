@@ -1,12 +1,16 @@
 <div align="center">
 
+<img src="https://www.pngkit.com/png/full/152-1526200_ens-logo-ethereum-name-service.png" height="150px" /><br />
+
 # get-ens
 
-[![Version][v-badge-url]][npm-url] [![Downloads][dl-badge-url]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Codecov][cov-badge-url]][cov-url]
+[![Version][v-badge-url]][npm-url] [![Downloads][dl-badge-url]][npm-url] [![GitHub Workflow Status][gh-actions-img]][github-actions] [![Codecov][cov-badge-url]][cov-url] [![][docs-badge]][docs]
 
-<sub>Get text records of an ENS address with ease.</sub>
+<sub>Get text records of an [ENS](app.ens.domains) address with ease.</sub>
 
 </div>
+
+This library simplifies the process of retreiving ENS data with the help of [TheGraph ENS explorer](https://thegraph.com/explorer/subgraph/ensdomains/ens) and ENS [TextResolver](https://github.com/ensdomains/ens-contracts/blob/master/contracts/resolvers/profiles/TextResolver.sol) contract.
 
 ## Install
 
@@ -68,3 +72,5 @@ const { address, records, owner } = await getENS(provider)('foda.eth')
 [dl-badge-url]: https://img.shields.io/npm/dt/get-ens?style=for-the-badge&color=4D48F7
 [github-actions]: https://github.com/talentlessguy/get-ens/actions
 [gh-actions-img]: https://img.shields.io/github/workflow/status/talentlessguy/get-ens/CI?style=for-the-badge&color=4D48F7&label=&logo=github
+[docs-badge]: https://img.shields.io/badge/Docs-4D48F7?style=for-the-badge&logo=deno
+[docs]: https://doc.deno.land/https/esm.sh/get-ens
