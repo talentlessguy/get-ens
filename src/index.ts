@@ -1,6 +1,5 @@
 import { namehash } from './namehash'
 import { ABI } from './abi'
-import assert from 'assert'
 import { Contract } from '@ethersproject/contracts'
 import { request } from 'graphql-request'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
