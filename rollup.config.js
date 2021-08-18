@@ -13,5 +13,5 @@ export default {
       mangle: false
     })
   ],
-  external: ['@ethersproject/contracts', 'keccak', '@ethersproject/providers']
+  external: ['@ethersproject/contracts', 'keccak', '@ethersproject/providers', 'graphql-request']
 }
