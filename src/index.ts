@@ -39,8 +39,14 @@ query($domain: String!) {
 }
 `
 
-const request = async (endpoint: string, query: string, variables: Record<string, any>) => {
+const request = async (
+  endpoint: string,
+  query: string,
+  variables: Record<string, any>,
+  fetchOptions: RequestInit = {}
+) => {
   const res = await fetch(endpoint, {
+    ...fetchOptions,
     body: JSON.stringify({ query, variables }),
     method: 'POST'
   })
@@ -66,12 +72,17 @@ export const getENS = (
 
   const getRecord = async (node: string, record: string) => await contract.text(node, record)
 
-  return async function getENS(domain: string): Promise<ResolvedENS> {
+  return async function getENS(domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
     const node = namehash(domain)
 
-    const { domains } = await request(ENDPOINT, QUERY, {
-      domain: domain
-    })
+    const { domains } = await request(
+      ENDPOINT,
+      QUERY,
+      {
+        domain
+      },
+      fetchOptions
+    )
 
     const records: ENSRecords = { web: {} }
 

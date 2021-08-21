@@ -37,4 +37,13 @@ t('resolves without address', async () => {
   })
 })
 
+t('supports custom fetch options', async () => {
+  const res = await getENS(provider)('lilnasx.eth', { mode: 'no-cors' })
+
+  deepStrictEqual(res, {
+    address: null,
+    owner: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963'
+  })
+})
+
 t.run()
