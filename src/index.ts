@@ -116,6 +116,8 @@ export const getENS = (
 
           return data
         }
+      } else {
+        throw new Error('Invalid ENS domain or ethereum address')
       }
     }
   }

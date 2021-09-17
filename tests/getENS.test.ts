@@ -1,6 +1,6 @@
 import { getDefaultProvider, InfuraProvider } from '@ethersproject/providers'
 import { suite } from 'uvu'
-import { deepStrictEqual } from 'assert'
+import { deepStrictEqual, strictEqual } from 'assert'
 import { getENS } from '../src/index'
 import fetch from 'node-fetch'
 
@@ -47,12 +47,20 @@ t('supports custom fetch options', async () => {
 })
 
 t('returns an address if input was an address', async () => {
-  const res = await getENS(provider)('0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963', { mode: 'no-cors' })
+  const res = await getENS(provider)('0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963')
 
   deepStrictEqual(res, {
     address: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963',
     owner: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963'
   })
+})
+
+t('throws an error on invalid input', async () => {
+  try {
+    await getENS(provider)('invalid')
+  } catch (e) {
+    strictEqual(e.message, 'Invalid ENS domain or ethereum address')
+  }
 })
 
 t.run()
