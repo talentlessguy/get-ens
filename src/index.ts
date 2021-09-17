@@ -75,42 +75,48 @@ export const getENS = (
   return async function getENS(domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
     const node = namehash(domain)
 
-    const { domains } = await request(
-      ENDPOINT,
-      QUERY,
-      {
-        domain
-      },
-      fetchOptions
-    )
-
-    const records: ENSRecords = { web: {} }
-
-    const { resolvedAddress: address, resolver, owner } = domains[0]
-
-    let data: { owner: string | null; address: string | null; records?: typeof records } = {
-      owner: null,
-      address: null
-    }
-
-    if (owner) data.owner = owner.id
-
-    if (address) data.address = address.id
-
-    if (!resolver?.texts) {
-      return data
+    if (/^0x[a-fA-F0-9]{40}$/.test(domain)) {
+      return { address: domain, owner: domain }
     } else {
-      for (const record of resolver.texts) {
-        if (record.startsWith('com.') || record.startsWith('vnd.')) {
-          records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
+      const { domains } = await request(
+        ENDPOINT,
+        QUERY,
+        {
+          domain
+        },
+        fetchOptions
+      )
+
+      const records: ENSRecords = { web: {} }
+
+      if (domains?.[0]) {
+        const { resolvedAddress: address, resolver, owner } = domains?.[0]
+
+        let data: { owner: string | null; address: string | null; records?: typeof records } = {
+          owner: null,
+          address: null
+        }
+
+        if (owner) data.owner = owner.id
+
+        if (address) data.address = address.id
+
+        if (!resolver?.texts) {
+          return data
         } else {
-          records[record] = await getRecord(node, record)
+          for (const record of resolver.texts) {
+            if (record.startsWith('com.') || record.startsWith('vnd.')) {
+              records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
+            } else {
+              records[record] = await getRecord(node, record)
+            }
+          }
+
+          data.records = records
+
+          return data
         }
       }
-
-      data.records = records
-
-      return data
     }
   }
 }

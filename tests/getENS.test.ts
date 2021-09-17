@@ -46,4 +46,13 @@ t('supports custom fetch options', async () => {
   })
 })
 
+t('returns an address if input was an address', async () => {
+  const res = await getENS(provider)('0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963', { mode: 'no-cors' })
+
+  deepStrictEqual(res, {
+    address: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963',
+    owner: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963'
+  })
+})
+
 t.run()
