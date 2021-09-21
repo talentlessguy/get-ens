@@ -12,6 +12,12 @@
 
 This library simplifies the process of retreiving ENS data with the help of [TheGraph ENS explorer](https://thegraph.com/explorer/subgraph/ensdomains/ens) and ENS [TextResolver](https://github.com/ensdomains/ens-contracts/blob/master/contracts/resolvers/profiles/TextResolver.sol) contract.
 
+## Features
+
+- Good types
+- Custom ENS contract address support
+- Reverse ENS lookup
+
 ## Install
 
 ```sh

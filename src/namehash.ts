@@ -1,6 +1,6 @@
-import createHash from 'keccak'
+import jsSha3 from 'js-sha3'
 
-const sha3 = (x: string | Buffer) => createHash('keccak256').update(x).digest().toString('hex')
+const sha3 = (x: string | Buffer) => jsSha3.keccak256(x)
 
 export function namehash(name: string) {
   let node = ''

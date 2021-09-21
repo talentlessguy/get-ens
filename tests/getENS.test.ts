@@ -21,11 +21,10 @@ t('resolves the address and text records', async () => {
       description: 'ⓕ™',
       email: 'foda@just.is',
       url: 'https://asf.is',
-      web: {
-        github: 'https://github.com/a-s-f',
-        instagram: 'https://instagram.com/foda.farm',
-        twitter: 'twitter.com/fodasynthesis'
-      }
+
+      github: 'https://github.com/a-s-f',
+      instagram: 'https://instagram.com/foda.farm',
+      twitter: 'twitter.com/fodasynthesis'
     }
   })
 })
@@ -46,12 +45,22 @@ t('supports custom fetch options', async () => {
   })
 })
 
-t('returns an address if input was an address', async () => {
-  const res = await getENS(provider)('0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963')
+t('does a reverse lookup if ethereum address is passed', async () => {
+  const res = await getENS(provider)('0xD3B282e9880cDcB1142830731cD83f7ac0e1043f')
 
   deepStrictEqual(res, {
-    address: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963',
-    owner: '0xe5501bc2b0df6d0d7daafc18d2ef127d9e612963'
+    address: '0xd3b282e9880cdcb1142830731cd83f7ac0e1043f',
+    owner: '0xd3b282e9880cdcb1142830731cd83f7ac0e1043f',
+    records: {
+      avatar: 'ipfs://bafkreia4t7isswz3fpqzwc7rokd5m7rd3dom7aavcbthxk5fggixncngru',
+      description:
+        '17 y/o nullstack developer. deno and web3 fan. (not actually) working at rainbow.me and brandname.tech',
+      email: 'v1rtl@protonmail.com',
+      url: 'https://v1rtl.site',
+
+      github: 'talentlessguy',
+      reddit: 'v1rtl'
+    }
   })
 })
 

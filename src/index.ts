@@ -1,10 +1,21 @@
 import { namehash } from './namehash'
 import { ABI } from './abi'
 import { Contract } from '@ethersproject/contracts'
-import { Provider, getDefaultProvider } from '@ethersproject/providers'
+import { BaseProvider, getDefaultProvider } from '@ethersproject/providers'
 import assert from 'assert'
 
-export type ENSRecords = Record<string, string | {}> & { web: Record<string, string> }
+export type ENSRecords = {
+  [key: string]: string
+} & Partial<{
+  avatar: string
+  github: string
+  reddit: string
+  instagram: string
+  twitter: string
+  email: string
+  url: string
+  description: string
+}>
 
 export interface ResolvedENS {
   /**
@@ -65,59 +76,55 @@ const request = async (
  * @returns
  */
 export const getENS = (
-  provider: Provider = getDefaultProvider(),
+  provider: BaseProvider = getDefaultProvider(),
   contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41'
 ) => {
   const contract = new Contract(contractAddress, ABI, provider)
 
   const getRecord = async (node: string, record: string) => await contract.text(node, record)
 
-  return async function getENS(domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
+  return async function getENS(_domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
+    const domain = /^0x[a-fA-F0-9]{40}$/.test(_domain) ? await provider.lookupAddress(_domain) : _domain
+
     const node = namehash(domain)
 
-    if (/^0x[a-fA-F0-9]{40}$/.test(domain)) {
-      return { address: domain, owner: domain }
-    } else {
-      const { domains } = await request(
-        ENDPOINT,
-        QUERY,
-        {
-          domain
-        },
-        fetchOptions
-      )
+    const { domains } = await request(
+      ENDPOINT,
+      QUERY,
+      {
+        domain
+      },
+      fetchOptions
+    )
 
-      const records: ENSRecords = { web: {} }
+    const records: ENSRecords = {}
 
-      if (domains?.[0]) {
-        const { resolvedAddress: address, resolver, owner } = domains?.[0]
+    if (domains?.[0]) {
+      const { resolvedAddress: address, resolver, owner } = domains?.[0]
 
-        let data: { owner: string | null; address: string | null; records?: typeof records } = {
-          owner: null,
-          address: null
-        }
+      let data: { owner: string | null; address: string | null; records?: typeof records } = {
+        owner: null,
+        address: null
+      }
 
-        if (owner) data.owner = owner.id
+      if (owner) data.owner = owner.id
 
-        if (address) data.address = address.id
+      if (address) data.address = address.id
 
-        if (!resolver?.texts) {
-          return data
-        } else {
-          for (const record of resolver.texts) {
-            if (record.startsWith('com.') || record.startsWith('vnd.')) {
-              records.web[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
-            } else {
-              records[record] = await getRecord(node, record)
-            }
-          }
-
-          data.records = records
-
-          return data
-        }
+      if (!resolver?.texts) {
+        return data
       } else {
-        throw new Error('Invalid ENS domain or ethereum address')
+        for (const record of resolver.texts) {
+          if (record.startsWith('com.') || record.startsWith('vnd.')) {
+            records[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
+          } else {
+            records[record] = await getRecord(node, record)
+          }
+        }
+
+        data.records = records
+
+        return data
       }
     }
   }

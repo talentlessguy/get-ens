@@ -34,14 +34,13 @@
   "dependencies": {
     "@ethersproject/contracts": "^5.4.1",
     "@ethersproject/providers": "^5.4.5",
-    "keccak": "^3.0.2"
+    "js-sha3": "^0.8.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@rollup/plugin-typescript": "^8.2.5",
-    "@types/keccak": "^3.0.1",
-    "@types/node": "^16.9.2",
+    "@types/node": "^16.9.4",
     "c8": "^7.9.0",
     "esbuild-node-loader": "^0.3.1",
     "husky": "^7.0.2",
