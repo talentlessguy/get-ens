@@ -29,7 +29,11 @@ export interface ResolvedENS {
   /**
    * ENS text records
    */
-  records?: ENSRecords
+  records: ENSRecords
+  /**
+   * Reverse lookup domain
+   */
+  domain: string
 }
 
 const ENDPOINT = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
@@ -102,9 +106,11 @@ export const getENS = (
     if (domains?.[0]) {
       const { resolvedAddress: address, resolver, owner } = domains?.[0]
 
-      let data: { owner: string | null; address: string | null; records?: typeof records } = {
+      let data = {
         owner: null,
-        address: null
+        address: null,
+        domain,
+        records: {}
       }
 
       if (owner) data.owner = owner.id
