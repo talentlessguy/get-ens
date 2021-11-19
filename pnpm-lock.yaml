@@ -8,7 +8,6 @@ specifiers:
   '@rollup/plugin-typescript': ^8.3.0
   '@types/node': ^16.11.9
   c8: ^7.10.0
-  esbuild-node-loader: ^0.6.3
   husky: ^7.0.4
   js-sha3: ^0.8.0
   node-fetch: ^3.1.0
@@ -30,7 +29,6 @@ devDependencies:
   '@rollup/plugin-typescript': 8.3.0_8237b289b1560ac087923ea403810077
   '@types/node': 16.11.9
   c8: 7.10.0
-  esbuild-node-loader: 0.6.3_typescript@4.5.2
   husky: 7.0.4
   node-fetch: 3.1.0
   rollup: 2.60.0
@@ -889,15 +887,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /esbuild-node-loader/0.6.3_typescript@4.5.2:
-    resolution: {integrity: sha512-Bf6o8SiMMh5+r20jsjAThNOtzo3t8Ye4Qdzz+twWHnxu28SdkGUr5ahq8iX0qbd+I9ge8sLNX7oQoNW1YzHlqA==}
-    peerDependencies:
-      typescript: ^4.0
-    dependencies:
-      esbuild: 0.13.14
-      typescript: 4.5.2
-    dev: true
 
   /esbuild-openbsd-64/0.13.14:
     resolution: {integrity: sha512-9bzvwewHjct2Cv5XcVoE1yW5YTW12Sk838EYfA46abgnhxGoFSD1mFcaztp5HHC43AsF+hQxbSFG/RilONARUA==}
