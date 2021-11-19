@@ -1,4 +1,4 @@
-import { namehash } from './namehash'
+import { namehash } from '@ethersproject/hash'
 import { ABI } from './abi'
 import { Contract } from '@ethersproject/contracts'
 import { BaseProvider, getDefaultProvider } from '@ethersproject/providers'
