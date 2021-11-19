@@ -12,21 +12,20 @@ const t = suite('getENS(provider, domain)')
 const provider = new InfuraProvider('homestead', '0c8c992691dc4bfe97b4365a27fb2ce4')
 
 t('resolves the address and text records', async () => {
-  deepStrictEqual(await getENS(provider)('foda.eth'), {
-    address: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
-    owner: '0xf75ed978170dfa5ee3d71d95979a34c91cd7042e',
+  deepStrictEqual(await getENS(provider)('v1rtl.eth'), {
+    address: '0xd3b282e9880cdcb1142830731cd83f7ac0e1043f',
+    owner: '0xd3b282e9880cdcb1142830731cd83f7ac0e1043f',
     records: {
-      avatar: 'https://slate.textile.io/ipfs/bafkreiddogjj5m6nhru72cqvj7napv3knwyqcvxlfxu4axkwhhlg55t5cu',
-      color: '#f0da91',
-      description: 'ⓕ™',
-      email: 'foda@just.is',
-      url: 'https://asf.is',
+      avatar: 'ipfs://bafkreia4t7isswz3fpqzwc7rokd5m7rd3dom7aavcbthxk5fggixncngru',
+      description:
+        '17 y/o nullstack developer. deno and web3 fan. (not actually) working at rainbow.me and brandname.tech',
+      email: 'v1rtl@protonmail.com',
+      url: 'https://v1rtl.site',
 
-      github: 'https://github.com/a-s-f',
-      instagram: 'https://instagram.com/foda.farm',
-      twitter: 'twitter.com/fodasynthesis'
+      github: 'talentlessguy',
+      reddit: 'v1rtl'
     },
-    domain: 'foda.eth'
+    domain: 'v1rtl.eth'
   })
 })
 
@@ -67,6 +66,17 @@ t('does a reverse lookup if ethereum address is passed', async () => {
       reddit: 'v1rtl'
     },
     domain: 'v1rtl.eth'
+  })
+})
+
+t('returns "null" for a domain if ENS is not present', async () => {
+  const res = await getENS(provider)('0x604Ee422975E74050Eeaa3fC74BAbf6E008C0acC')
+
+  deepStrictEqual(res, {
+    address: '0x604Ee422975E74050Eeaa3fC74BAbf6E008C0acC',
+    owner: '0x604Ee422975E74050Eeaa3fC74BAbf6E008C0acC',
+    domain: null,
+    records: {}
   })
 })
 

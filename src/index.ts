@@ -33,7 +33,7 @@ export interface ResolvedENS {
   /**
    * Reverse lookup domain
    */
-  domain: string
+  domain: string | null
 }
 
 const ENDPOINT = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
@@ -73,6 +73,8 @@ const request = async (
   return json.data
 }
 
+const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
+
 /**
  *
  * @param provider Ethereum provider
@@ -88,7 +90,16 @@ export const getENS = (
   const getRecord = async (node: string, record: string) => await contract.text(node, record)
 
   return async function getENS(_domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
-    const domain = /^0x[a-fA-F0-9]{40}$/.test(_domain) ? await provider.lookupAddress(_domain) : _domain
+    const domain = ADDRESS_REGEX.test(_domain) ? await provider.lookupAddress(_domain) : _domain
+
+    if (domain == null && ADDRESS_REGEX.test(_domain)) {
+      return {
+        owner: _domain,
+        address: _domain,
+        domain: null,
+        records: {}
+      }
+    }
 
     const node = namehash(domain)
 

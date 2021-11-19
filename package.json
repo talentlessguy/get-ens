@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "test": "node --loader=esbuild-node-loader node_modules/uvu/bin.js tests",
+    "test": "tsm node_modules/uvu/bin.js tests",
     "build": "rollup -c",
     "test:coverage": "c8 --include=src pnpm test",
     "test:report": "c8 report --reporter=text-lcov > coverage.lcov",
@@ -32,24 +32,24 @@
   },
   "homepage": "https://github.com/talentlessguy/get-ens#readme",
   "dependencies": {
-    "@ethersproject/contracts": "^5.4.1",
-    "@ethersproject/providers": "^5.4.5",
+    "@ethersproject/contracts": "^5.5.0",
+    "@ethersproject/providers": "^5.5.0",
     "js-sha3": "^0.8.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
-    "@rollup/plugin-typescript": "^8.2.5",
-    "@types/node": "^16.9.4",
-    "c8": "^7.9.0",
-    "esbuild-node-loader": "^0.3.1",
-    "husky": "^7.0.2",
-    "node-fetch": "^3.0.0",
-    "rollup": "^2.56.3",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/node": "^16.11.9",
+    "c8": "^7.10.0",
+    "husky": "^7.0.4",
+    "node-fetch": "^3.1.0",
+    "rollup": "^2.60.0",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.3",
-    "uvu": "^0.5.1"
+    "tsm": "^2.1.4",
+    "typescript": "^4.5.2",
+    "uvu": "^0.5.2"
   },
   "engines": {
     "node": ">=12.4"
