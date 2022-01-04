@@ -34,6 +34,11 @@ export interface ResolvedENS {
    * Reverse lookup domain
    */
   domain: string | null
+
+   /**
+   * Multicoin records
+   */
+  coinTypes: any
 }
 
 const ENDPOINT = 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
@@ -46,6 +51,7 @@ query($domain: String!) {
     }
     resolver {
       texts
+      coinTypes
     }
     owner {
       id
@@ -88,6 +94,7 @@ export const getENS = (
   const contract = new Contract(contractAddress, ABI, provider)
 
   const getRecord = async (node: string, record: string) => await contract.text(node, record)
+  const getMulticoinAddress = async (node: string, coinType: number) => await contract.addr(node, coinType)
 
   return async function getENS(_domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
     const domain = ADDRESS_REGEX.test(_domain) ? await provider.lookupAddress(_domain) : _domain
@@ -97,7 +104,8 @@ export const getENS = (
         owner: _domain,
         address: _domain,
         domain: null,
-        records: {}
+        records: {},
+        coinTypes: {}
       }
     }
 
@@ -111,8 +119,8 @@ export const getENS = (
       },
       fetchOptions
     )
-
     const records: ENSRecords = {}
+    const coinTypes = {}
 
     if (domains?.[0]) {
       const { resolvedAddress: address, resolver, owner } = domains?.[0]
@@ -121,7 +129,9 @@ export const getENS = (
         owner: null,
         address: null,
         domain,
-        records: {}
+        records: {},
+        coinTypes: {}
+        
       }
 
       if (owner) data.owner = owner.id
@@ -131,6 +141,7 @@ export const getENS = (
       if (!resolver?.texts) {
         return data
       } else {
+        
         for (const record of resolver.texts) {
           if (record.startsWith('com.') || record.startsWith('vnd.')) {
             records[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
@@ -140,9 +151,17 @@ export const getENS = (
         }
 
         data.records = records
-
-        return data
       }
+
+      if (!resolver?.coinTypes) {
+        return data
+      } else {
+        for (const coinType of resolver.coinTypes) {
+          coinTypes[coinType] = await getMulticoinAddress(node, coinType)
+        }
+        data.coinTypes = coinTypes
+      }
+      return data
     }
   }
 }
