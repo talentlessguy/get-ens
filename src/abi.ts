@@ -89,5 +89,31 @@ export const ABI = [
     ],
     stateMutability: 'view',
     type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'node',
+        type: 'bytes32'
+      },
+      {
+        internalType: 'uint256',
+        name: 'coinType',
+        type: 'uint256'
+      }
+    ],
+    name: 'addr',
+    outputs: [
+      {
+        internalType: 'bytes',
+        name: '',
+        type: 'bytes'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
   }
-]
+];
