@@ -1,5 +1,4 @@
 <div align="center">
-
 <img src="https://www.pngkit.com/png/full/152-1526200_ens-logo-ethereum-name-service.png" height="150px" /><br />
 
 # get-ens
@@ -77,6 +76,6 @@ const { address, records, owner } = await getENS(provider)('foda.eth')
 [cov-url]: https://coveralls.io/github/talentlessguy/get-ens
 [dl-badge-url]: https://img.shields.io/npm/dt/get-ens?style=for-the-badge&color=4D48F7
 [github-actions]: https://github.com/talentlessguy/get-ens/actions
-[gh-actions-img]: https://img.shields.io/github/workflow/status/talentlessguy/get-ens/CI?style=for-the-badge&color=4D48F7&label=&logo=github
+[gh-actions-img]: https://img.shields.io/github/actions/workflow/status/talentlessguy/get-ens/main.yml?branch=master&style=for-the-badge&color=4D48F7
 [docs-badge]: https://img.shields.io/badge/Docs-4D48F7?style=for-the-badge&logo=deno
 [docs]: https://doc.deno.land/https/esm.sh/get-ens

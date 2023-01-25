@@ -7,5 +7,5 @@ export default {
     format: 'esm'
   },
   plugins: [ts({ include: ['./src/**/*.ts'] })],
-  external: ['@ethersproject/contracts', 'keccak', '@ethersproject/providers', 'graphql-request']
+  external: ['@ethersproject/contracts', '@ethersproject/providers', '@ethersproject/hash', 'assert']
 }
