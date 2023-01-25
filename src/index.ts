@@ -90,11 +90,10 @@ const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
  * @param contractAddress ENS resolver contract address
  * @returns
  */
-export const getENS = (
-  provider: BaseProvider = getDefaultProvider(),
-  contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41',
-  endpointUrl = ENDPOINT
-) => {
+export const getENS = (opts?: Partial<{ provider: BaseProvider; contractAddress: string; endpointUrl: string }>) => {
+  const provider = opts?.provider || getDefaultProvider()
+  const contractAddress = opts?.contractAddress || '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41'
+  const endpointUrl = opts?.endpointUrl || ENDPOINT
   const contract = new Contract(contractAddress, ABI, provider)
 
   const getRecord = async (node: string, record: string) => await contract.functions.text(node, record)

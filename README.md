@@ -37,7 +37,7 @@ const provider = getDefaultProvider()
 // @ts-ignore
 globalThis.fetch = fetch
 
-const { address, records, owner } = await getENS(provider)('foda.eth')
+const { address, records, owner } = await getENS({ provider })('foda.eth')
 
 /*
 {
@@ -67,7 +67,7 @@ import { getDefaultProvider } from 'https://esm.sh/@ethersproject/providers'
 
 const provider = getDefaultProvider()
 
-const { address, records, owner } = await getENS(provider)('foda.eth')
+const { address, records, owner } = await getENS({ provider })('foda.eth')
 ```
 
 [v-badge-url]: https://img.shields.io/npm/v/get-ens.svg?style=for-the-badge&color=4D48F7&label=&logo=npm
