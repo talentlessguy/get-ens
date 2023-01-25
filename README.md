@@ -14,9 +14,9 @@ This library simplifies the process of retreiving ENS data with the help of [The
 
 ## Features
 
-- Good types
-- Custom ENS contract address support
-- Reverse ENS lookup
+- Fully Typed
+- Custom ENS contract address and TheGraph endpoint support
+- Reverse ENS lookup if address is passed
 
 ## Install
 

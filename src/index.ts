@@ -31,6 +31,10 @@ export interface ResolvedENS {
    */
   records: ENSRecords
   /**
+   * Crypto addresses
+   */
+  coins: Record<string, string>
+  /**
    * Reverse lookup domain
    */
   domain: string | null
@@ -46,6 +50,7 @@ query($domain: String!) {
     }
     resolver {
       texts
+      coinTypes
     }
     owner {
       id
@@ -70,7 +75,11 @@ const request = async (
 
   const json = await res.json()
 
-  return json.data
+  return json.data.domains[0] as {
+    resolvedAddress: null | { id: string }
+    resolver: { texts: string[]; coinTypes: number[] } | null
+    owner: null | { id: string }
+  }
 }
 
 const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
@@ -83,28 +92,33 @@ const ADDRESS_REGEX = /^0x[a-fA-F0-9]{40}$/
  */
 export const getENS = (
   provider: BaseProvider = getDefaultProvider(),
-  contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41'
+  contractAddress: string = '0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41',
+  endpointUrl = ENDPOINT
 ) => {
   const contract = new Contract(contractAddress, ABI, provider)
 
-  const getRecord = async (node: string, record: string) => await contract.text(node, record)
+  const getRecord = async (node: string, record: string) => await contract.functions.text(node, record)
+  const getCoin = async (node: string, coinType: number) => await contract.functions.addr(node, coinType)
 
   return async function getENS(_domain: string, fetchOptions?: RequestInit): Promise<ResolvedENS> {
+    if (!(ADDRESS_REGEX.test(_domain) || _domain?.endsWith('.eth')))
+      throw new Error(`Invalid ENS domain or ethereum address: ${_domain}`)
     const domain = ADDRESS_REGEX.test(_domain) ? await provider.lookupAddress(_domain) : _domain
 
-    if (domain == null && ADDRESS_REGEX.test(_domain)) {
+    if (domain == null) {
       return {
         owner: _domain,
         address: _domain,
         domain: null,
-        records: {}
+        records: {},
+        coins: {}
       }
     }
 
     const node = namehash(domain)
 
-    const { domains } = await request(
-      ENDPOINT,
+    const ens = await request(
+      endpointUrl,
       QUERY,
       {
         domain
@@ -112,36 +126,44 @@ export const getENS = (
       fetchOptions
     )
 
-    const records: ENSRecords = {}
+    if (ens) {
+      const { resolvedAddress: address, resolver, owner } = ens
 
-    if (domains?.[0]) {
-      const { resolvedAddress: address, resolver, owner } = domains?.[0]
-
-      let data = {
+      let data: ResolvedENS = {
         owner: null,
         address: null,
         domain,
-        records: {}
+        records: {},
+        coins: {}
       }
 
-      if (owner) data.owner = owner.id
+      if (owner?.id) data.owner = owner.id
 
-      if (address) data.address = address.id
+      if (address?.id) data.address = address.id
 
-      if (!resolver?.texts) {
-        return data
-      } else {
+      if (resolver?.texts) {
         for (const record of resolver.texts) {
-          if (record.startsWith('com.') || record.startsWith('vnd.')) {
-            records[record.slice(record.indexOf('.') + 1)] = await getRecord(node, record)
+          const value = (await getRecord(node, record))[0]
+          if (record.startsWith('com.') || record.startsWith('vnd.') || record.startsWith('org.')) {
+            data.records[record.slice(record.indexOf('.') + 1)] = value
           } else {
-            records[record] = await getRecord(node, record)
+            data.records[record] = value
           }
         }
-
-        data.records = records
-
-        return data
+      }
+      if (resolver?.coinTypes) {
+        for (const coinType of resolver.coinTypes) {
+          data.coins[coinType] = (await getCoin(node, coinType))[0]
+        }
+      }
+      return data
+    } else {
+      return {
+        owner: null,
+        address: null,
+        records: {},
+        domain: null,
+        coins: {}
       }
     }
   }

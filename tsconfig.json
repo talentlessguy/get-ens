@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
-    "target": "ES2019",
+    "target": "ES2021",
     "preserveSymlinks": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -10,7 +10,8 @@
     "declaration": true,
     "declarationDir": "dist",
     "outDir": "dist",
-    "rootDirs": ["src", "tests"]
+    "rootDirs": ["src", "tests"],
+    "strict": true
   },
   "include": ["tests", "src"]
 }
